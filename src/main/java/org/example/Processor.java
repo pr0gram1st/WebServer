@@ -42,6 +42,7 @@ public class Processor {
                 name += c;
                 pos++;
             }
+
             File myObj = new File(name);
             if (myObj.createNewFile()) {
                 this.response += ("File created: " + myObj.getName());
@@ -69,6 +70,23 @@ public class Processor {
             myWriter.write(text);
             myWriter.close();
             this.response += "Successfully wrote to the file.";
+        }
+        else if(s.contains("delete")){
+            int pos = 12;
+            String filename = "";
+            while(s.charAt(pos) != ' '){
+                char c = s.charAt(pos);
+                filename += c;
+                pos++;
+            }
+            File f= new File(filename);
+            if(f.delete()){
+                this.response += f.getName() + " deleted";   //getting and printing the file name
+            }
+            else
+            {
+                this.response += "failed";
+            }
         }
         else if(s.charAt(5) == 'c' && s.charAt(6) == 'a' && s.charAt(7) == 't'){
             String filename = "";
