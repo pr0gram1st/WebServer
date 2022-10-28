@@ -62,6 +62,23 @@ public class Processor{
     }
 
     public void process() throws IOException {
+        int numOfThreads = 4;
+        int numOfItems = 100;
+        ThreadSafeQueue<String> queue = new ThreadSafeQueue<>();
+
+        // Starting consumer threads.
+        for (int i = 0; i < numOfThreads; i++) {
+            Consumer<String> cons = new Consumer<>(i, queue);
+            cons.start();
+        }
+        for (int i = 0; i < numOfItems; i++) {
+            queue.add("item " + i);
+        }
+
+        // Stopping consumers by sending them null values.
+        for (int i = 0; i < numOfThreads; i++) {
+            queue.add(null);
+        }
         System.out.println("Got request:");
         System.out.println(request.toString());
         System.out.flush();
